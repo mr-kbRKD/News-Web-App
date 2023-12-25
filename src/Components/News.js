@@ -20,14 +20,26 @@ export class News extends Component {
     // is a lifecycle method, // will run after render below(content)
     async componentDidMount(){  
         // let url = "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=9e83c367fb45465aa1cd3d128ec2490e";
+        try{
+
         let url = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=7db5facefeb246e1838ac72e9b7864b3";
         let data = await fetch(url);
         let parsedData = await data.json();
         console.log(parsedData);
         // this.setState(this.articles=parsedData.articles);
-        this.setState({ articles: parsedData.articles });
+        // this.setState({ articles: parsedData.articles });
 
-    }
+        if (parsedData.articles) {
+            // Setting the state with the fetched articles
+            this.setState({ articles: parsedData.articles });
+          } else {
+            console.error('No articles found in the API response.');
+          }
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+    
 
     handlePrevClick=() =>{
         console.log("Previous");
